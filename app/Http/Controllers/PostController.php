@@ -39,6 +39,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $data = $request->validate([
+            'name' => 'required',
+            'impressions' => 'required|min:10'], 
+        [
+            'name.required' => 'You need to enter your name',
+            'impressions.required' => 'Please write your impressions']);
+
         $post = new Post;
         $post->title = $request->input('name');
         $post->description = $request->input('impressions');
@@ -68,8 +75,12 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {   
+        $data = array(
+            'id' => 'posts',
+            'posts' => Post::find($id)
+        );
+        return view('posts.edit')->with($data);
     }
 
     /**
@@ -81,7 +92,18 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required',
+            'impressions' => 'required|min:10'], 
+        [
+            'title.required' => 'You need to enter your name',
+            'impressions.required' => 'Please write your impressions']);
+
+        Post::where('id', $request->id)->update([
+            'title' => $request->name,
+            'description' => $request->impressions
+        ]);
+        return redirect('posts')->with('edited', 'Data has been updated');
     }
 
     /**
@@ -92,6 +114,9 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // $id = $request->input('id');
+        $post = Post::find($id);
+        $post->delete();
+        return redirect('posts')->with('success', 'Data Deleted');
     }
 }

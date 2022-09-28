@@ -56,17 +56,60 @@
             font-size: 1.3em;
         }
 
-        .button1:hover {
-            background-color: #472D2D;
+        .btn-danger {
+            background-color: #F96666;
+            border: none;
+            color: snow;
+            font-size: 1.3em;
         }
 
         .btn-primary:hover, .btn-primary:focus, .btn-primary:active:focus, .btn-primary.active, .open.dropdown-toggle.btn-primary {
             color: snow;
-            background-color: #495C83 !important;
+            background-color: #2E2E2E !important;
+        }
+
+        .btn-danger:hover, .btn-danger:focus, .btn-danger:active:focus, .btn-danger.active, .open.dropdown-toggle.btn-danger {
+            color: snow;
+            background-color: #2E2E2E !important;
+        }
+
+        .btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active:focus, .btn-secondary.active, .open.dropdown-toggle.btn-secondary {
+            color: snow;
+            background-color: #2E2E2E !important;
         }
 
 
     </style>
+    <script>
+        function takeEditData(data) {
+            var data1 = data.parentNode.parentNode;
+            var nameTag = data1.firstElementChild;
+            var descriptionTag = nameTag.nextElementSibling;
+            var dateTag = descriptionTag.nextElementSibling;
+            var idTag = dateTag.nextElementSibling;
+            // var actionRoute = `{ route('posts.update', ${idTag.innerHTML}) }`;
+            // var actionRoute1 = `{${actionRoute}}`;
+
+            // document.getElementById('updateData').action = ;
+
+            // document.getElementById('changeName').value = nameTag.innerHTML;
+            // document.getElementById('changeImpressions').innerHTML = descriptionTag.innerHTML;
+            // console.log(document.getElementById('updateData').action);
+        }
+
+        function takeDeleteData(data) {
+            var data1 = data.parentNode.parentNode;
+            var nameTag = data1.firstElementChild;
+            var descriptionTag = nameTag.nextElementSibling;
+            var dateTag = descriptionTag.nextElementSibling;
+            var idTag = dateTag.nextElementSibling;
+
+            // var actionRoute = `{route('posts.destroy')}`;
+
+            // document.getElementById('deleteData').action = `{${actionRoute}}`;
+            // document.getElementById("deleteWarning").innerHTML= `Are you sure you want to delete ${nameTag.innerHTML}'s impressions?`;
+        }
+    </script>
 </head>
 <body>
     <div id="app">

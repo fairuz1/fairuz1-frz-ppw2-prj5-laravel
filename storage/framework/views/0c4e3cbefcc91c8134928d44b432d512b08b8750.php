@@ -1,16 +1,21 @@
 <?php $__env->startSection('content'); ?>
 
-<div class="alert alert-primary alert-dismissible fade show login-alert" role="alert">
-    <?php if(session('status')): ?>
-        <div class="alert alert-primary" role="alert">
-            <?php echo e(session('status')); ?>
 
+
+<?php if(session()->has('edited')): ?>
+        <div id="session-edited" class="alert alert-success alert-dismissible fade show" role="alert">
+            <?php echo e(session('edited')); ?>
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php endif; ?>
-    <h4 class="alert-heading"><b>Welcome to CRUD Page!</b></h4>
-    <p> Congratulation <b><?php echo e(Auth::user()->name); ?></b>, you have visited the CRUD Page! You could do many things in here.</p>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
+<?php elseif(session()->has('deleted')): ?>
+    <div id="session-deleted" class="alert alert-success alert-dismissible fade show" role="alert">
+        <?php echo e(session('edited')); ?>
+
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+<?php endif; ?>
 
 <div class="container">
     <div class="row mt-4 mb-4">
@@ -31,15 +36,25 @@
                     <th scope="col">Name</th>
                     <th scope="col">Impressions</th>
                     <th scope="col">Date</th>
+                    <th scope="col" span="2">Edit Data</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if(count($posts) > 0): ?>
                     <?php $__currentLoopData = $posts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
-                        <td><?php echo e($post->title); ?></td>
-                        <td><?php echo e($post->description); ?></td>
-                        <td><?php echo e($post->created_at); ?></td>
+                        <td id="title"><?php echo e($post->title); ?></td>
+                        <td id="description"><?php echo e($post->description); ?></td>
+                        <td id="date1"><?php echo e($post->created_at); ?></td>
+                        <td class="mx-auto text-center">
+                            <a href="/posts/<?php echo e($post->id); ?>/edit" class="btn btn-primary"><b>Edit</b></a>
+                            <form action="<?php echo e(route('posts.destroy',$post->id)); ?>" method="POST" id="deleteData" style="display: inline-block">
+                                <?php echo method_field('DELETE'); ?>
+                                <?php echo e(csrf_field()); ?>        
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this data?')"><b>Delete</b></button>
+                            </form>
+                            
+                        </td>
                     </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php else: ?>
@@ -51,6 +66,7 @@
         </table>
     </div>
 </div>
+
 
 <div class="modal fade" tabindex="-1" id="addImpressions">
     <div class="modal-dialog">
@@ -65,20 +81,37 @@
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name" maxlength="50">
+                        <?php $__errorArgs = ['title'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                            <span class="text-danger"><?php echo e($message); ?></span>
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
                     <div class="mb-3">
                         <label for="impressions" class="form-label">Impressions about this website</label>
                         <textarea class="form-control" name="impressions" id="impressions" cols="10" rows="5" maxlength="200"></textarea>
                         <div class="form-text" id="impressions_detail">Every thoughts you have is fine</div>
+                        <?php if($errors->has('impressions')): ?>
+                            <span class="text-danger"><?php echo e($errors->first('impressions')); ?></span>
+                        <?php endif; ?>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" style="font-size: 1em;"><b>Tambah Data</b></button>
-                    <button type="button" class="btn btn-secondary delete ms-2" style="font-size: 1em;" data-bs-dismiss="modal"><b>Kembali</b></button>
+                    <button type="submit" class="btn btn-primary" style="font-size: 1em;"><b>Add Data</b></button>
+                    <button type="button" class="btn btn-outline-secondary ms-2" style="font-size: 1em;" data-bs-dismiss="modal"><b>Go back</b></button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/fairuzakbarazaria/proyek_tugas1/resources/views/posts/index.blade.php ENDPATH**/ ?>
