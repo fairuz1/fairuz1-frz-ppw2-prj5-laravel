@@ -3,16 +3,20 @@
 
 
 <?php if(session()->has('edited')): ?>
-        <div id="session-edited" class="alert alert-success alert-dismissible fade show" role="alert">
-            <?php echo e(session('edited')); ?>
-
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-<?php elseif(session()->has('deleted')): ?>
-    <div id="session-deleted" class="alert alert-success alert-dismissible fade show" role="alert">
+    <div id="session-edited" class="alert alert-success alert-dismissible fade show" role="alert">
         <?php echo e(session('edited')); ?>
 
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php elseif(session()->has('deleted')): ?>
+    <div id="session-deleted" class="alert alert-success alert-dismissible fade show" role="alert">
+        <?php echo e(session('deleted')); ?>
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 
 <?php endif; ?>
@@ -27,7 +31,7 @@
             pressing this button.
         </p>
         <div class="mb-3">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addImpressions"><b>Add Impressions</b></button>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#addImpressions"><b>Add Impressions</b></button>
         </div>
         <table class="table caption-top table-hover table-bordered text-center mt-2">
             <caption>People impressions about this website</caption>
@@ -64,8 +68,16 @@
                 <?php endif; ?>
             </tbody>
         </table>
+        <small>Pages number <b><?php echo e($posts->currentPage()); ?></b>. Displaying <b><?php echo e($posts->perPage()); ?></b> data each, from the total of <b><?php echo e($posts->total()); ?></b> data</small>
+
+    </div>
+    <div class="d-flex justify-content-center">
+        <?php echo e($posts->links()); ?>
+
     </div>
 </div>
+
+
 
 
 <div class="modal fade" tabindex="-1" id="addImpressions">
@@ -102,7 +114,7 @@ unset($__errorArgs, $__bag); ?>
                     </div>
 
                     <button type="submit" class="btn btn-primary" style="font-size: 1em;"><b>Add Data</b></button>
-                    <button type="button" class="btn btn-outline-secondary ms-2" style="font-size: 1em;" data-bs-dismiss="modal"><b>Go back</b></button>
+                    <button type="button" class="btn btn-outline-secondary ms-2" style="font-size: 1em;" data-dismiss="modal"><b>Go back</b></button>
                 </form>
             </div>
         </div>

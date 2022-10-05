@@ -14,14 +14,18 @@
 </div> --}}
 
 @if(session()->has('edited'))
-        <div id="session-edited" class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('edited') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <div id="session-edited" class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('edited') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 @elseif(session()->has('deleted'))
     <div id="session-deleted" class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('edited') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ session('deleted') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 
 @endif
@@ -36,7 +40,7 @@
             pressing this button.
         </p>
         <div class="mb-3">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addImpressions"><b>Add Impressions</b></button>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#addImpressions"><b>Add Impressions</b></button>
         </div>
         <table class="table caption-top table-hover table-bordered text-center mt-2">
             <caption>People impressions about this website</caption>
@@ -73,8 +77,15 @@
                 @endif
             </tbody>
         </table>
+        <small>Pages number <b>{{ $posts->currentPage() }}</b>. Displaying <b>{{ $posts->perPage() }}</b> data each, from the total of <b>{{ $posts->total() }}</b> data</small>
+
+    </div>
+    <div class="d-flex justify-content-center">
+        {{ $posts->links() }}
     </div>
 </div>
+
+
 
 {{-- add data --}}
 <div class="modal fade" tabindex="-1" id="addImpressions">
@@ -103,7 +114,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary" style="font-size: 1em;"><b>Add Data</b></button>
-                    <button type="button" class="btn btn-outline-secondary ms-2" style="font-size: 1em;" data-bs-dismiss="modal"><b>Go back</b></button>
+                    <button type="button" class="btn btn-outline-secondary ms-2" style="font-size: 1em;" data-dismiss="modal"><b>Go back</b></button>
                 </form>
             </div>
         </div>

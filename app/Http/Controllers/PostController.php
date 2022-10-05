@@ -15,10 +15,9 @@ class PostController extends Controller
     {
         $data = array(
             'id' => "posts",
-            "posts" => Post::all()
+            "posts" => Post::orderBy('created_at', 'asc')->paginate(10)
         );
         return view('posts.index')->with($data);
-        // return Post::All();
     }
 
     /**
@@ -31,12 +30,6 @@ class PostController extends Controller
         return view('posts.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -93,10 +86,10 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'title' => 'required',
+            'name' => 'required',
             'impressions' => 'required|min:10'], 
         [
-            'title.required' => 'You need to enter your name',
+            'name.required' => 'You need to enter your name',
             'impressions.required' => 'Please write your impressions']);
 
         Post::where('id', $request->id)->update([
@@ -117,6 +110,6 @@ class PostController extends Controller
         // $id = $request->input('id');
         $post = Post::find($id);
         $post->delete();
-        return redirect('posts')->with('success', 'Data Deleted');
+        return redirect('posts')->with('deleted', 'Data has been deleted');
     }
 }

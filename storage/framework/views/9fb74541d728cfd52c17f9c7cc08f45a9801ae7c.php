@@ -9,7 +9,12 @@
     <?php endif; ?>
     <h4 class="alert-heading"><b>Logged In!</b></h4>
     <p> Congratulation <b><?php echo e(Auth::user()->name); ?></b>, you have successfuly logged in. Enjoy your time!</p>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <!-- 
+        bootstrap v.5.0
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
 </div>
 
 <div class="modal fade" tabindex="-1" id="addWebpages">
@@ -34,7 +39,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary" style="font-size: 1em;"><b>Add Data</b></button>
-                    <button type="button" class="btn btn-secondary ms-2" style="font-size: 1em;" data-bs-dismiss="modal"><b>Cancel</b></button>
+                    <button type="button" class="btn btn-secondary ms-2" style="font-size: 1em;" data-dismiss="modal"><b>Cancel</b></button>
                 </form>
             </div>
         </div>
@@ -51,7 +56,7 @@
             from controller with the help of model.
         </p>
         <div class="mb-3">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addWebpages"><b>Add Webpages</b></button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addWebpages"><b>Add Webpages</b></button>
         </div>
         <table class="table caption-top table-bordered table-hover text-center mt-2">
             <caption>List of preveously routed pages that has been moved to controller</caption>
